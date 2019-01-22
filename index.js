@@ -7,8 +7,7 @@ export class Sequence extends React.Component {
     this.fps = this.props.fps != null ? Number(this.props.fps) : 40;
     this.imagesTotal = -1;
     this.imagesLoaded = 0;
-    this.direction =
-      this.props.direction != null ? this.props.direction : "forward";
+    this.direction = "forward";
     this.state = {
       current: 0
     };
