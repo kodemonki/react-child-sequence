@@ -14,7 +14,7 @@
     "React", "Image", "Sequence"
   ],
   "author": "kodemonki",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/kodemonki/react-child-sequence/issues"
   },
