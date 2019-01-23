@@ -1,6 +1,6 @@
 # kodemonki/react-child-sequence
 
-Plays a sequence of child images
+Plays a sequence of child image objects
 
 ## Install
 
