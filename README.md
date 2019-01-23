@@ -13,7 +13,7 @@ $ npm install @kodemonki/react-child-sequence
 ```js
 const Sequence = require("@kodemonki/react-child-sequence");
 
-<Sequence loop={true} yoyo={true} framerate={60}}>
+<Sequence loop={true} yoyo={true} fps={60}}>
   <img src={Image1} />
   <img src={Image2} />
   <img src={Image3} />
