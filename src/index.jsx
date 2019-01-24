@@ -1,6 +1,25 @@
 import React from "react";
 
-export class Sequence extends React.Component {
+const ReactColorSquare = props => {
+  const { width, height, color, text } = props;
+  return (
+    <div
+      style={{
+        width: width || 100,
+        height: height || 100,
+        backgroundColor: color || "blue"
+      }}
+    >
+      {text}
+    </div>
+  );
+};
+
+export default ReactColorSquare;
+/*
+import React, { Component } from "react";
+
+export class Sequence extends Component {
   constructor(props) {
     super(props);
     this.intervalId = null;
@@ -130,3 +149,4 @@ export class Sequence extends React.Component {
     return <div>{this.renderChildren()}</div>;
   }
 }
+*/
