@@ -1,22 +1,3 @@
-import React from "react";
-
-const ReactColorSquare = props => {
-  const { width, height, color, text } = props;
-  return (
-    <div
-      style={{
-        width: width || 100,
-        height: height || 100,
-        backgroundColor: color || "blue"
-      }}
-    >
-      {text}
-    </div>
-  );
-};
-
-export default ReactColorSquare;
-/*
 import React, { Component } from "react";
 
 export class Sequence extends Component {
@@ -35,7 +16,10 @@ export class Sequence extends Component {
     this.updateSequenceYoyoBind = this.updateSequenceYoyo.bind(this);
   }
   updateSequence() {
-    if (this.state.current + 1 < this.props.children.length) {
+    if (
+      this.props.children &&
+      this.state.current + 1 < this.props.children.length
+    ) {
       this.setState((prevState, props) => ({
         current: prevState.current + 1
       }));
@@ -115,8 +99,7 @@ export class Sequence extends Component {
       if (i == 0) {
         newArr.push(
           <img
-            key={i + "first"}
-            className="Sequence__first"
+            key={i + "_first"}
             style={{ position: "relative", visibility: "hidden" }}
             src={arr[i].props.src}
           />
@@ -149,4 +132,3 @@ export class Sequence extends Component {
     return <div>{this.renderChildren()}</div>;
   }
 }
-*/

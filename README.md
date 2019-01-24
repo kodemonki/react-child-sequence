@@ -11,13 +11,11 @@ $ npm install @kodemonki/react-child-sequence
 ## Usage
 
 ```js
-const Sequence = require("@kodemonki/react-child-sequence");
+import { Sequence } from "@kodemonki/react-child-sequence";
 
-<Sequence loop={true} yoyo={true} frameRate={60}}>
-  <img src={Image1} />
-  <img src={Image2} />
-  <img src={Image3} />
-  <img src={Image4} />
-  <img src={Image5} />
+<Sequence loop={true} yoyo={true} frameRate={60}>
+  <img src={logo1} />
+  <img src={logo2} />
+  <img src={logo3} />
 </Sequence>;
 ```
