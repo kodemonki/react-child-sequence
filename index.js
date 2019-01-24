@@ -4,7 +4,8 @@ export class Sequence extends React.Component {
   constructor(props) {
     super(props);
     this.intervalId = null;
-    this.fps = this.props.fps != null ? Number(this.props.fps) : 40;
+    this.frameRate =
+      this.props.frameRate != null ? Number(this.props.frameRate) : 40;
     this.imagesTotal = -1;
     this.imagesLoaded = 0;
     this.direction = "forward";
