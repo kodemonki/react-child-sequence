@@ -3,23 +3,26 @@ import React, { Component } from "react";
 export class Sequence extends Component {
   constructor(props) {
     super(props);
+    //vars
     this.intervalId = null;
-    this.frameRate =
-      this.props.frameRate != null ? Number(this.props.frameRate) : 40;
     this.imagesTotal = -1;
     this.imagesLoaded = 0;
     this.direction = "forward";
+    //props
+    this.frameRate =
+      this.props.frameRate != null ? Number(this.props.frameRate) : 40;
+    this.loop = this.props.loop != null ? this.props.loop : false;
+    this.yoyo = this.props.yoyo != null ? this.props.yoyo : false;
+    //init state
     this.state = {
       current: 0
     };
+    //binds
     this.updateSequenceBind = this.updateSequence.bind(this);
     this.updateSequenceYoyoBind = this.updateSequenceYoyo.bind(this);
   }
   updateSequence() {
-    if (
-      this.props.children &&
-      this.state.current + 1 < this.props.children.length
-    ) {
+    if (this.state.current + 1 < this.props.children.length) {
       this.setState((prevState, props) => ({
         current: prevState.current + 1
       }));
@@ -39,8 +42,8 @@ export class Sequence extends Component {
     }
   }
   endSequence() {
-    if (this.props.loop == true) {
-      if (this.props.yoyo == true) {
+    if (this.loop == true) {
+      if (this.yoyo == true) {
         if (this.direction == "forward") {
           this.direction = "backward";
           this.setState((prevState, props) => ({
@@ -75,7 +78,9 @@ export class Sequence extends Component {
   }
   startSequence() {
     if (this.intervalId == null) {
-      this.updateSequence();
+      if (this.props.children != null) {
+        this.updateSequence();
+      }
     }
   }
   stopSequence() {
