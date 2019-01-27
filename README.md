@@ -22,7 +22,7 @@ frameRate - number - time frame is visible for
 
 import { Sequence } from "@kodemonki/react-child-sequence";
 
-Defaults
+//Defaults
 
 <Sequence>
   <img src={image1} />
@@ -30,7 +30,7 @@ Defaults
   <img src={image3} />
 </Sequence>
 
-Optional
+//Optional
 
 <Sequence loop={true} yoyo={true} frameRate={60}>
   <img src={image1} />
