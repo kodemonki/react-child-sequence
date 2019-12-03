@@ -8,9 +8,9 @@ export class Sequence extends Component {
     this.intervalId = null;
     this.imagesTotal = -1;
     this.imagesLoaded = 0;
-    this.direction = "forward";
     this.forward = "forward";
     this.backward = "backward";
+    this.direction = this.forward;
     //props
     this.frameRate = Math.round(1000 / this.props.fps);
     //state
@@ -72,21 +72,21 @@ export class Sequence extends Component {
       if (this.props.yoyo === true) {
         if (this.direction === this.forward) {
           this.direction = this.backward;
-          this.setState((prevState, props) => ({
+          this.setState({
             current: this.props.children.length - 1
-          }));
+          });
           this.startSequenceYoyoTimer();
         } else if (this.direction === this.backward) {
           this.direction = this.forward;
-          this.setState((prevState, props) => ({
+          this.setState({
             current: 0
-          }));
+          });
           this.startSequenceTimer();
         }
       } else {
-        this.setState((prevState, props) => ({
+        this.setState({
           current: 0
-        }));
+        });
         this.startSequenceTimer();
       }
     }
