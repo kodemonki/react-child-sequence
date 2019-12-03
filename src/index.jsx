@@ -11,10 +11,18 @@ export class Sequence extends Component {
     this.direction = "forward";
     //props
     this.frameRate = Math.round(1000 / this.props.fps);
-
+    //state
     this.state = {
       current: 0
     };
+  }
+  componentDidMount() {
+    if (this.imagesTotal === this.imagesLoaded) {
+      this.startSequence();
+    }
+  }
+  componentWillUnmount() {
+    this.stopSequence();
   }
   updateSequence = () => {
     if (this.state.current + 1 < this.props.children.length) {
@@ -38,15 +46,15 @@ export class Sequence extends Component {
     }
   };
   endSequence = () => {
-    if (this.props.loop == true) {
-      if (this.props.yoyo == true) {
-        if (this.direction == "forward") {
+    if (this.props.loop === true) {
+      if (this.props.yoyo === true) {
+        if (this.direction === "forward") {
           this.direction = "backward";
           this.setState((prevState, props) => ({
             current: this.props.children.length - 1
           }));
           this.startSequenceYoyoTimer();
-        } else if (this.direction == "backward") {
+        } else if (this.direction === "backward") {
           this.direction = "forward";
           this.setState((prevState, props) => ({
             current: 0
@@ -61,14 +69,6 @@ export class Sequence extends Component {
       }
     }
   };
-  componentWillMount() {
-    if (this.imagesTotal == this.imagesLoaded) {
-      this.startSequence();
-    }
-  }
-  componentWillUnmount() {
-    this.stopSequence();
-  }
   startSequenceTimer = () => {
     clearInterval(this.intervalId);
     this.intervalId = setTimeout(this.updateSequence, this.frameRate);
@@ -78,10 +78,12 @@ export class Sequence extends Component {
     this.intervalId = setTimeout(this.updateSequenceYoyo, this.frameRate);
   };
   startSequence = () => {
-    if (this.intervalId == null) {
-      if (this.props.children != null) {
-        this.updateSequence();
-      }
+    if (
+      this.props.autoPlay === true &&
+      this.intervalId === null &&
+      this.props.children !== null
+    ) {
+      this.updateSequence();
     }
   };
   stopSequence = () => {
@@ -93,7 +95,7 @@ export class Sequence extends Component {
   };
   handleImageLoaded = e => {
     this.imagesLoaded++;
-    if (this.imagesLoaded == this.imagesTotal) {
+    if (this.imagesLoaded === this.imagesTotal) {
       this.startSequence();
     }
   };
@@ -102,7 +104,7 @@ export class Sequence extends Component {
     let newArr = new Array();
     this.imagesTotal = arr.length;
     for (let i = 0; i < this.imagesTotal; i++) {
-      if (i == 0) {
+      if (i === 0) {
         newArr.push(
           <img
             key={i + "_first"}
@@ -112,10 +114,11 @@ export class Sequence extends Component {
               visibility: "hidden"
             }}
             src={arr[i].props.src}
+            alt={arr[i].props.alt}
           />
         );
       }
-      if (i == this.state.current) {
+      if (i === this.state.current) {
         newArr.push(
           <img
             key={i}
@@ -126,6 +129,7 @@ export class Sequence extends Component {
             }}
             onLoad={this.handleImageLoaded.bind(this)}
             src={arr[i].props.src}
+            alt={arr[i].props.alt}
           />
         );
       } else {
@@ -139,6 +143,7 @@ export class Sequence extends Component {
             }}
             onLoad={this.handleImageLoaded.bind(this)}
             src={arr[i].props.src}
+            alt={arr[i].props.alt}
           />
         );
       }
@@ -155,7 +160,7 @@ Sequence.defaultProps = {
   autoPlay: true,
   loop: true,
   yoyo: true,
-  fps: 4 //29
+  fps: 29
 };
 
 Sequence.propTypes = {
