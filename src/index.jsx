@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 export class Sequence extends Component {
   constructor(props) {
@@ -9,65 +10,57 @@ export class Sequence extends Component {
     this.imagesLoaded = 0;
     this.direction = "forward";
     //props
-    this.frameRate =
-      this.props.frameRate != null ? Number(this.props.frameRate) : 40;
-    this.loop = this.props.loop != null ? this.props.loop : false;
-    this.yoyo = this.props.yoyo != null ? this.props.yoyo : false;
-    //init state
+    this.frameRate = Math.round(1000 / this.props.fps);
+
     this.state = {
       current: 0
     };
-    //binds
-    this.updateSequenceBind = this.updateSequence.bind(this);
-    this.updateSequenceYoyoBind = this.updateSequenceYoyo.bind(this);
   }
-  updateSequence() {
+  updateSequence = () => {
     if (this.state.current + 1 < this.props.children.length) {
       this.setState((prevState, props) => ({
         current: prevState.current + 1
       }));
-      this.intervalId = setTimeout(this.updateSequenceBind, this.frameRate);
+      this.startSequenceTimer();
     } else {
       this.endSequence();
     }
-  }
-  updateSequenceYoyo() {
+  };
+  updateSequenceYoyo = () => {
     if (this.state.current - 1 > 0) {
       this.setState((prevState, props) => ({
         current: prevState.current - 1
       }));
-      this.intervalId = setTimeout(this.updateSequenceYoyoBind, this.frameRate);
+      clearInterval(this.intervalId);
+      this.intervalId = setTimeout(this.updateSequenceYoyo, this.frameRate);
     } else {
       this.endSequence();
     }
-  }
-  endSequence() {
-    if (this.loop == true) {
-      if (this.yoyo == true) {
+  };
+  endSequence = () => {
+    if (this.props.loop == true) {
+      if (this.props.yoyo == true) {
         if (this.direction == "forward") {
           this.direction = "backward";
           this.setState((prevState, props) => ({
             current: this.props.children.length - 1
           }));
-          this.intervalId = setTimeout(
-            this.updateSequenceYoyoBind,
-            this.frameRate
-          );
+          this.startSequenceYoyoTimer();
         } else if (this.direction == "backward") {
           this.direction = "forward";
           this.setState((prevState, props) => ({
             current: 0
           }));
-          this.intervalId = setTimeout(this.updateSequenceBind, this.frameRate);
+          this.startSequenceTimer();
         }
       } else {
         this.setState((prevState, props) => ({
           current: 0
         }));
-        this.intervalId = setTimeout(this.updateSequenceBind, this.frameRate);
+        this.startSequenceTimer();
       }
     }
-  }
+  };
   componentWillMount() {
     if (this.imagesTotal == this.imagesLoaded) {
       this.startSequence();
@@ -76,27 +69,35 @@ export class Sequence extends Component {
   componentWillUnmount() {
     this.stopSequence();
   }
-  startSequence() {
+  startSequenceTimer = () => {
+    clearInterval(this.intervalId);
+    this.intervalId = setTimeout(this.updateSequence, this.frameRate);
+  };
+  startSequenceYoyoTimer = () => {
+    clearInterval(this.intervalId);
+    this.intervalId = setTimeout(this.updateSequenceYoyo, this.frameRate);
+  };
+  startSequence = () => {
     if (this.intervalId == null) {
       if (this.props.children != null) {
         this.updateSequence();
       }
     }
-  }
-  stopSequence() {
+  };
+  stopSequence = () => {
     clearInterval(this.intervalId);
     this.intervalId = null;
-  }
-  getFrame(number) {
+  };
+  getFrame = number => {
     return this.props.children[number];
-  }
-  handleImageLoaded(e) {
+  };
+  handleImageLoaded = e => {
     this.imagesLoaded++;
     if (this.imagesLoaded == this.imagesTotal) {
       this.startSequence();
     }
-  }
-  renderChildren() {
+  };
+  renderChildren = () => {
     let arr = this.props.children;
     let newArr = new Array();
     this.imagesTotal = arr.length;
@@ -105,7 +106,11 @@ export class Sequence extends Component {
         newArr.push(
           <img
             key={i + "_first"}
-            style={{ position: "relative", visibility: "hidden" }}
+            style={{
+              ...arr[i].props.style,
+              position: "relative",
+              visibility: "hidden"
+            }}
             src={arr[i].props.src}
           />
         );
@@ -114,7 +119,11 @@ export class Sequence extends Component {
         newArr.push(
           <img
             key={i}
-            style={{ position: "absolute", visibility: "visible" }}
+            style={{
+              ...arr[i].props.style,
+              position: "absolute",
+              visibility: "visible"
+            }}
             onLoad={this.handleImageLoaded.bind(this)}
             src={arr[i].props.src}
           />
@@ -123,7 +132,11 @@ export class Sequence extends Component {
         newArr.push(
           <img
             key={i}
-            style={{ position: "absolute", visibility: "hidden" }}
+            style={{
+              ...arr[i].props.style,
+              position: "absolute",
+              visibility: "hidden"
+            }}
             onLoad={this.handleImageLoaded.bind(this)}
             src={arr[i].props.src}
           />
@@ -132,8 +145,22 @@ export class Sequence extends Component {
     }
 
     return newArr;
-  }
+  };
   render() {
-    return <div>{this.renderChildren()}</div>;
+    return <div style={this.props.style}>{this.renderChildren()}</div>;
   }
 }
+
+Sequence.defaultProps = {
+  autoPlay: true,
+  loop: true,
+  yoyo: true,
+  fps: 4 //29
+};
+
+Sequence.propTypes = {
+  autoPlay: PropTypes.bool,
+  loop: PropTypes.bool,
+  yoyo: PropTypes.bool,
+  fps: PropTypes.bool
+};
