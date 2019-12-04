@@ -144,5 +144,5 @@ Sequence.propTypes = {
   autoPlay: PropTypes.bool,
   loop: PropTypes.bool,
   yoyo: PropTypes.bool,
-  fps: PropTypes.bool
+  fps: PropTypes.number
 };

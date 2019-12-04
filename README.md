@@ -1,6 +1,16 @@
 # kodemonki/react-child-sequence
 
-Plays a sequence of child image objects. It takes a copy of the first image and hides it positioned relatively, to force the div to have the correct size. Then it absolutely positions the remaining images over the top with visibility set to hidden. It then cycles through setting the visibility to visible.
+Plays a sequence of child image objects. It absolutely positions the remaining images over the top with visibility set to hidden. It then cycles through setting the visibility to visible for the current image.
+
+## Updates
+
+- Changed frameRate prop to fps (frames per second) to make it less strange
+- Added className and style object passing to children
+- Removed dummy first image
+- Added propTypes
+- added defaultProps
+- Added Es-lint to build
+- Cleaned up function binding
 
 ## Install
 
@@ -11,9 +21,10 @@ $ npm install @kodemonki/react-child-sequence
 ## Props
 
 ```
-loop - true|false - repeat sequence
-yoyo - true|false - replay in reverse
-frameRate - number - time frame is visible for
+autoPlay : boolean - play sequence
+loop : boolean - repeat sequence
+yoyo : boolean - replay in reverse
+fps : number - frames per second
 ```
 
 ## Usage
@@ -32,9 +43,9 @@ import { Sequence } from "@kodemonki/react-child-sequence";
 
 //Optional
 
-<Sequence loop={true} yoyo={true} frameRate={60}>
-  <img src={image1} />
-  <img src={image2} />
-  <img src={image3} />
+<Sequence autoPlay={true} loop={true} yoyo={true} fps={60} style={...} className="className">
+  <img src={image1} style={...} className="className" alt={"Alt text"}/>
+  <img src={image2} style={...} className="className" alt={"Alt text"}/>
+  <img src={image3} style={...} className="className" alt={"Alt text"}/>
 </Sequence>
 ```
