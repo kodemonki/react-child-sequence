@@ -33,6 +33,12 @@ fps : number - frames per second
 
 import { Sequence } from "@kodemonki/react-child-sequence";
 
+//Images
+
+import image1 from "./PathToImage1.jpg";
+import image2 from "./PathToImage2.jpg";
+import image3 from "./PathToImage3.jpg";
+
 //Defaults
 
 <Sequence>
@@ -43,7 +49,14 @@ import { Sequence } from "@kodemonki/react-child-sequence";
 
 //Optional
 
-<Sequence autoPlay={true} loop={true} yoyo={true} fps={60} style={...} className="className">
+<Sequence
+    autoPlay={true}
+    loop={true}
+    yoyo={true}
+    fps={29}
+    style={...}
+    className="className"
+>
   <img src={image1} style={...} className="className" alt={"Alt text"}/>
   <img src={image2} style={...} className="className" alt={"Alt text"}/>
   <img src={image3} style={...} className="className" alt={"Alt text"}/>
